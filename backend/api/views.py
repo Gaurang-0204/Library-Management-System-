@@ -7,6 +7,7 @@ from .models import reader, Book  # Use 'reader' (lowercase)
 from .serializers import ReaderSerializer, BookSerializer
 from django.utils.timezone import now
 from .models import Genre
+from django.db.models import Exists, OuterRef
 
 
 # ReaderViewSet for handling CRUD operations via REST API
@@ -18,6 +19,11 @@ class ReaderViewSet(viewsets.ModelViewSet):
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+    def get_queryset(self):
+        return Book.objects.annotate(
+            issued=Exists(IssueBook.objects.filter(book=OuterRef('pk'), returned=False))
+        )
 
 # Function to get all books
 def get_books(request):
@@ -69,7 +75,7 @@ def update_reader_bag(request, reader_id):
 @api_view(['POST'])
 def checkout_books(request, reader_id):
     try:
-        reader = Reader.objects.get(id=reader_id)
+        reader = reader.objects.get(id=reader_id)
         books = Book.objects.filter(id__in=request.data['books'])
 
         for book in books:
@@ -307,3 +313,92 @@ def return_book(request, id):
 
 
 
+from rest_framework import generics
+from .models import reader
+from .serializers import ReaderSerializer
+from django.db.models import Q
+
+class SearchReaderView(generics.ListAPIView):
+    serializer_class = ReaderSerializer
+
+    def get_queryset(self):
+        query = self.request.query_params.get("q", "")
+        return reader.objects.filter(
+            Q(reader_name__icontains=query) | 
+            Q(reference_id__icontains=query) |
+            Q(reader_contact__icontains=query)
+        )
+    
+
+
+
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from django.contrib.auth import get_user_model
+from rest_framework_simplejwt.tokens import RefreshToken
+
+User = get_user_model()  # Ensure you're using the CustomUser model
+
+class SignUpView(APIView):
+    def post(self, request):
+        email = request.data.get("email")
+        password = request.data.get("password")
+        name = request.data.get("name")
+
+        if User.objects.filter(email=email).exists():
+            return Response({"detail": "Email already registered"}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.create_user(username=name, email=email, password=password)
+        
+        # Generate JWT token after registration
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            "message": "User registered successfully",
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
+        }, status=status.HTTP_201_CREATED)
+
+class LoginView(APIView):
+    def post(self, request):
+        email = request.data.get("email")
+        password = request.data.get("password")
+
+        if not email or not password:
+            return Response({"detail": "Email and password are required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Fetch the user manually by email
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({"detail": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Manually check password
+        if not user.check_password(password):
+            return Response({"detail": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Generate JWT token
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
+        }, status=status.HTTP_200_OK)
+
+
+
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from .models import Book, reader, IssueBook  # Import your models
+
+class DashboardStatsView(APIView):
+    def get(self, request):
+        total_books = Book.objects.count()
+        total_members = reader.objects.count()
+        total_issued_books = IssueBook.objects.count()
+
+        return Response({
+            "total_books": total_books,
+            "total_members": total_members,
+            "total_issued_books": total_issued_books
+        }, status=status.HTTP_200_OK)

@@ -10,11 +10,12 @@ const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const sidebarItems = [
     { name: "Books", icon: <Book size={20} />, path: "/books" },
-    { name: "My Bag", icon: <List size={20} />, path: "/mybag" },
+    { name: "User Details", icon: <Star size={20} />, path: "/UserDetail" },
     { name: "Readers", icon: <Star size={20} />, path: "/readers" },
-    { name: "Returns", icon: <User size={20} />, path: "/returns" },
+    { name: "Issue List", icon: <List size={20} />, path: "/IssuedBook" },
     { name: "Add Book", icon: <Plus size={20} />, path: "/addbook" },
     { name: "Add Member", icon: <Plus size={20} />, path: "/addmember " },
+    { name: "Issue Book ", icon: <Plus size={20} />, path: "/IssueBookPage " },
   ];
 
   return (

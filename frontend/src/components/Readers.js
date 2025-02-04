@@ -74,8 +74,8 @@ const Readers = () => {
         <span>{reader.reader_contact}</span>
         <span>{reader.reader_address}</span>
         <span>
-        {reader.books_in_bag.length > 0 
-  ? `${reader.books_in_bag.length} books` 
+        {reader.books_in_bag > 0 
+  ? `${reader.books_in_bag} books` 
   : "None"}
         </span>
       </div>

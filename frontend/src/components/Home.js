@@ -1,20 +1,66 @@
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
    // Corrected import
 import { EyeIcon, EyeOffIcon } from "lucide-react";  // After installing lucide-react
 
 import { Search, ChevronLeft, ChevronRight, Book, List, Star, User } from "lucide-react";
+import SideBar from "./Authentication/SideBar";
+import axios from "axios";
 
 const Home = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const [stats, setStats] = useState({
+    total_books: 0,
+    total_members: 0,
+    total_issued_books: 0
+});
+
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState("");
+
+
+useEffect(() => {
+  const fetchStats = async () => {
+      try {
+          const response = await axios.get("http://127.0.0.1:8000/api/dashboard-stats/");
+          setStats(response.data);
+      } catch (err) {
+          setError("Failed to fetch data");
+      } finally {
+          setLoading(false);
+      }
+  };
+
+  fetchStats();
+}, []);
+
+
+
+if (loading) return <p>Loading...</p>;
+if (error) return <p style={{ color: "red" }}>{error}</p>;
+
+
+
+
+
+      // const categories = [
+      //     { title: "Books", updated: "Total available books : "{stats.total_books}, color: "bg-purple-500" },
+      //     { title: "Members", updated: "Total Members:"{stats.total_members}, color: "bg-blue-500" },
+      //     { title: "Returns", updated: "All returns made :"{stats.total_issued_books} , color: "bg-teal-500" },
+      //     { title: "Categories", updated: "Book Categories ", color: "bg-pink-500" },
+      //     { title: "General", updated: "Updated 2 days ago", color: "bg-orange-500" },
+      //   ];
+
+
+
       const categories = [
-          { title: "Books", updated: "Total available books", color: "bg-purple-500" },
-          { title: "Members", updated: "Total Members", color: "bg-blue-500" },
-          { title: "Returns", updated: "All returns made ", color: "bg-teal-500" },
-          { title: "Categories", updated: "Book Categories ", color: "bg-pink-500" },
-          { title: "General", updated: "Updated 2 days ago", color: "bg-orange-500" },
-        ];
+        { title: "Books", updated: `Total available books: ${stats.total_books}`, color: "bg-purple-500" },
+        { title: "Members", updated: `Total Members: ${stats.total_members}`, color: "bg-blue-500" },
+        { title: "Returns", updated: `All returns made: ${stats.total_issued_books}`, color: "bg-teal-500" },
+        { title: "Categories", updated: "Book Categories", color: "bg-pink-500" },
+      ];
+      
         
         const books = new Array(6).fill({ title: "Node.js", author: "David Harron", rating: 4 });
         
@@ -30,23 +76,7 @@ const Home = () => {
   return (
     <div>
       <div className="flex h-screen bg-gray-100">
-      <aside className={`${isSidebarOpen ? "w-64" : "w-20"} bg-purple-900 text-white flex flex-col py-5 space-y-6 transition-all duration-300`}> 
-            <div className="flex justify-between items-center px-4">
-              {isSidebarOpen && <span className="text-lg font-bold">Library</span>}
-              <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                {isSidebarOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
-              </button>
-            </div>
-            
-            <div className="flex flex-col space-y-4 px-4">
-              {sidebarItems.map((item, index) => (
-                <Link to={item.path} key={index} className="flex items-center space-x-2 cursor-pointer">
-                  {item.icon}
-                  {isSidebarOpen && <span>{item.name}</span>}
-                </Link>
-              ))}
-            </div>
-          </aside>
+      <SideBar/>
             
             {/* Main Content */}
             <main className="flex-1 p-6 bg-white rounded-lg shadow-md">
@@ -61,7 +91,7 @@ const Home = () => {
                   />
                 </div>
                 <div className="flex items-center space-x-3">
-                  <span className="text-gray-700 font-medium">UserName</span>
+                  <span className="text-gray-700 font-medium"></span>
                 </div>
               </div>
       

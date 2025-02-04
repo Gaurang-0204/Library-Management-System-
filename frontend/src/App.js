@@ -11,6 +11,8 @@ import SideBar from './components/Authentication/SideBar';
 import AddBook from './components/AddBook';
 import AddMember from './components/AddMember';
 import IssuedBooks from './components/IssuedBook';
+import IssueBookPage from './components/IssueBookPage';
+import UserDetails from './components/UserDetails';
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
       <Route path='/AddBook' element={<AddBook/>}/>
       <Route path='/AddMember' element={<AddMember/>}/>
       <Route path='/IssuedBook' element={<IssuedBooks/>}/>
+      <Route path='/IssueBookPage' element={<IssueBookPage/>}/>
+      <Route path='/UserDetail' element={<UserDetails/>}/>
     </Routes>
     </div>
   );

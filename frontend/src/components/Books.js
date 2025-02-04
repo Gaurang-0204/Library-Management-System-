@@ -10,26 +10,11 @@ import SideBar from './Authentication/SideBar';
 export default function StudentPortal() {
   const [Sbook, setBooks] = useState([]);
 
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    
+   
       
       
-      const sidebarItems = [
-    { name: "Books", icon: <Book size={24} />, path: "/books" },
-    { name: "My Bag", icon: <List size={24} />, path: "/mybag" },
-    { name: "Readers", icon: <Star size={24} />, path: "/readers" },
-    { name: "Returns", icon: <User size={24} />, path: "/returns" },
-      ];
-
-      const invoices = [
-        { id: "FL04577", name: "Emily Smith", date: "09/02/2018", amount: "$150.99", status: "Paid", statusColor: "bg-blue-500" },
-        { id: "FL04577", name: "Emily Smith", date: "09/02/2018", amount: "$150.99", status: "Processing", statusColor: "bg-yellow-500" },
-        { id: "FL04577", name: "Emily Smith", date: "09/02/2018", amount: "$150.99", status: "Paid", statusColor: "bg-blue-500" },
-        { id: "FL04577", name: "Emily Smith", date: "09/02/2018", amount: "$0.00", status: "On Hold", statusColor: "bg-pink-500" },
-        { id: "FL04577", name: "Emily Smith", date: "09/02/2018", amount: "$150.99", status: "Paid", statusColor: "bg-blue-500" },
-        { id: "FL04577", name: "Emily Smith", date: "09/02/2018", amount: "$150.99", status: "Paid", statusColor: "bg-blue-500" },
-        { id: "FL04577", name: "Emily Smith", date: "09/02/2018", amount: "$150.99", status: "Paid", statusColor: "bg-blue-500" },
-      ];
+     
+      
 
 
       useEffect(() => {
