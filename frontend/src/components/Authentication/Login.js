@@ -17,9 +17,9 @@ const Login = () => {
       const url = isSignUp ? "http://127.0.0.1:8000/api/signup/" : "http://127.0.0.1:8000/api/login/";
       const response = await axios.post(url, formData);
       alert(response.data.message);
-      if (!isSignUp) navigate("/"); // Redirect to dashboard after login
+      if (!isSignUp) navigate("/Home"); // Redirect to dashboard after login
     } catch (error) {
-      alert("Error: " + error.response.data.detail);
+      alert("Error: " + error.detail);
     }
   };
 
