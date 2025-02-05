@@ -4,11 +4,12 @@
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Book, List, Star, User, Plus, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, Book, List, Star, User, Plus, Search, Minus, Home } from "lucide-react";
 
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const sidebarItems = [
+    { name: "Home", icon: <Home size={20} />, path: "/" },
     { name: "Books", icon: <Book size={20} />, path: "/books" },
     { name: "User Details", icon: <Star size={20} />, path: "/UserDetail" },
     { name: "Readers", icon: <Star size={20} />, path: "/readers" },
@@ -16,6 +17,8 @@ const SideBar = () => {
     { name: "Add Book", icon: <Plus size={20} />, path: "/addbook" },
     { name: "Add Member", icon: <Plus size={20} />, path: "/addmember " },
     { name: "Issue Book ", icon: <Plus size={20} />, path: "/IssueBookPage " },
+    { name: "Delete Books ", icon: <Minus size={20} />, path: "/DeleteBook " },
+    { name: "Delete Member ", icon: <Minus size={20} />, path: "/DeleteMember " },
   ];
 
   return (

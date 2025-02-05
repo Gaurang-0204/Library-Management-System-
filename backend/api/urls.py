@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ReaderViewSet, BookViewSet, get_readers, update_reader_bag, checkout_books,add_to_bag, get_checked_out_books, return_book,add_book,get_genres,add_member,issue_book,issued_books,SearchReaderView,SignUpView,LoginView,DashboardStatsView
+from .views import ReaderViewSet, BookViewSet, get_readers, update_reader_bag, checkout_books,add_to_bag, get_checked_out_books, return_book,add_book,get_genres,add_member,issue_book,issued_books,SearchReaderView,SignUpView,LoginView,DashboardStatsView,delete_books,delete_readers
 
 # Create the router for API viewsets
 router = DefaultRouter()
@@ -39,6 +39,8 @@ urlpatterns = [
     path("signup/", SignUpView.as_view(), name="signup"),
     path("login/", LoginView.as_view(), name="login"),
     path("dashboard-stats/", DashboardStatsView.as_view(), name="dashboard-stats"),
+    path('delete/', delete_books, name='delete_books'),
+     path('members/', delete_readers, name='delete-readers'),
     
 
 

@@ -44,33 +44,21 @@ if (error) return <p style={{ color: "red" }}>{error}</p>;
 
 
 
-      // const categories = [
-      //     { title: "Books", updated: "Total available books : "{stats.total_books}, color: "bg-purple-500" },
-      //     { title: "Members", updated: "Total Members:"{stats.total_members}, color: "bg-blue-500" },
-      //     { title: "Returns", updated: "All returns made :"{stats.total_issued_books} , color: "bg-teal-500" },
-      //     { title: "Categories", updated: "Book Categories ", color: "bg-pink-500" },
-      //     { title: "General", updated: "Updated 2 days ago", color: "bg-orange-500" },
-      //   ];
+      
 
 
 
       const categories = [
         { title: "Books", updated: `Total available books: ${stats.total_books}`, color: "bg-purple-500" },
         { title: "Members", updated: `Total Members: ${stats.total_members}`, color: "bg-blue-500" },
-        { title: "Returns", updated: `All returns made: ${stats.total_issued_books}`, color: "bg-teal-500" },
-        { title: "Categories", updated: "Book Categories", color: "bg-pink-500" },
+        { title: "Issued Book", updated: `All returns made: ${stats.total_issued_books}`, color: "bg-teal-500" },
+       
       ];
       
         
         const books = new Array(6).fill({ title: "Node.js", author: "David Harron", rating: 4 });
         
-        const sidebarItems = [
-      { name: "Books", icon: <Book size={24} />, path: "/books" },
-      { name: "My Bag", icon: <List size={24} />, path: "/mybag" },
-      { name: "Readers", icon: <Star size={24} />, path: "/readers" },
-      { name: "Returns", icon: <User size={24} />, path: "/returns" },
-      { name: "Add Book", icon: <User size={24} />, path: "/AddBook" },
-        ];
+       
 
 
   return (
@@ -115,19 +103,7 @@ if (error) return <p style={{ color: "red" }}>{error}</p>;
               </section>
       
               {/* Book Catalog */}
-              <section className="mt-6">
-                <h2 className="text-lg font-semibold mb-4">⚡ New Arrivals (20)</h2>
-                <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
-                  {books.map((book, index) => (
-                    <div key={index} className="bg-purple-900 text-white p-3 rounded-lg shadow-md">
-                      <div className="h-16 w-12 bg-gray-700 mb-2"></div>
-                      <h4 className="text-sm font-semibold">{book.title}</h4>
-                      <p className="text-xs opacity-80">{book.author}</p>
-                      <p className="text-yellow-400">{'⭐'.repeat(book.rating)}</p>
-                    </div>
-                  ))}
-                </div>
-              </section>
+              
             </main>
           </div>
     </div>

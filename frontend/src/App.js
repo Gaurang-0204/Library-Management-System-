@@ -13,6 +13,8 @@ import AddMember from './components/AddMember';
 import IssuedBooks from './components/IssuedBook';
 import IssueBookPage from './components/IssueBookPage';
 import UserDetails from './components/UserDetails';
+import DeleteBook from './components/DeleteBook';
+import DeleteMember from './components/DeleteMember';
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
       <Route path='/IssuedBook' element={<IssuedBooks/>}/>
       <Route path='/IssueBookPage' element={<IssueBookPage/>}/>
       <Route path='/UserDetail' element={<UserDetails/>}/>
+      <Route path='/DeleteBook' element={<DeleteBook/>}/>
+      <Route path='/DeleteMember' element={<DeleteMember/>}/>
     </Routes>
     </div>
   );

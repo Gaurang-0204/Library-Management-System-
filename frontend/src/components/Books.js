@@ -21,6 +21,7 @@ export default function StudentPortal() {
         axios.get('http://localhost:8000/api/books/')
           .then(response => {
             setBooks(response.data);
+            
           })
           .catch(error => {
             console.error('There was an error fetching the books!', error);
@@ -84,6 +85,8 @@ export default function StudentPortal() {
     <Link to='/AddBook'>
     <button className="bg-red-500 text-white px-4 py-2 rounded">Add New Book</button>
     </Link>
+
+    
   </div>
   <div className="bg-white p-4 rounded-lg shadow">
     <div className="grid grid-cols-5 font-semibold p-2 border-b">

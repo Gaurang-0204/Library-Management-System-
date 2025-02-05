@@ -402,3 +402,62 @@ class DashboardStatsView(APIView):
             "total_members": total_members,
             "total_issued_books": total_issued_books
         }, status=status.HTTP_200_OK)
+
+
+
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+import json
+from .models import Book  # Ensure Book model is imported
+
+@api_view(['DELETE'])
+def delete_books(request):
+    try:
+        # Ensure we parse JSON data properly
+        data = json.loads(request.body.decode('utf-8'))
+        book_isbns = data.get('book_isbns', [])
+
+        if not book_isbns:
+            return Response({'error': 'No book ISBNS provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Delete books matching the given ISBNs
+        deleted_count, _ = Book.objects.filter(isbn__in=book_isbns).delete()
+
+        if deleted_count == 0:
+            return Response({'error': 'No matching books found'}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response({'message': 'Books deleted successfully'}, status=status.HTTP_200_OK)
+    
+    except json.JSONDecodeError:
+        return Response({'error': 'Invalid JSON data'}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+from .models import reader
+
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+from .models import reader
+
+@api_view(['DELETE'])
+def delete_readers(request):
+    """
+    Deletes multiple readers based on the provided IDs.
+    """
+    try:
+        reader_ids = request.data.get('reader_ids', [])
+        if not reader_ids:
+            return Response({'error': 'No reader IDs provided'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        deleted_count, _ = reader.objects.filter(id__in=reader_ids).delete()
+        
+        return Response({'message': f'{deleted_count} readers deleted successfully'}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
