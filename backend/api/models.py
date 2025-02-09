@@ -131,6 +131,7 @@ class Book(models.Model):
     published_date = models.DateField()
     genre = models.ForeignKey(Genre, on_delete=models.SET_NULL, null=True)  # Prevent accidental book deletion
     description = models.TextField()
+    issued = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

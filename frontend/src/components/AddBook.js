@@ -12,6 +12,7 @@ const AddBook = () => {
     published_date: '',
     genre: '',
     description: '',
+   
   });
 
   const [genres, setGenres] = useState([]);
@@ -29,18 +30,29 @@ const AddBook = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const formattedData = {
+      ...formData,
+      published_date: new Date(formData.published_date).toISOString().split("T")[0],
+    };
+
+    console.log("Sending data:", formattedData);
+
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/add-book/', formData, {
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const response = await axios.post(
+        'http://127.0.0.1:8000/api/add-book/',
+        JSON.stringify(formattedData),
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      
       alert('Book added successfully!');
       setFormData({ title: '', author: '', isbn: '', published_date: '', genre: '', description: '' });
+
     } catch (error) {
-      console.error('Error adding book:', error);
-      
+      console.error('Error adding book:', error.response ? error.response.data : error);
       alert('Failed to add book.');
     }
-  };
+};
 
   return (
     <div className="flex h-screen bg-gray-100">

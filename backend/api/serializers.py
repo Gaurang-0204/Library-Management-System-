@@ -80,10 +80,10 @@ from rest_framework import serializers
 from .models import Book
 
 class BookSerializer(serializers.ModelSerializer):
-    issued = serializers.BooleanField()  
+    is_issued = serializers.BooleanField(read_only=True) 
     class Meta:
         model = Book
-        fields = ['title', 'author', 'isbn', 'published_date', 'genre', 'description','issued']
+        fields = ['title', 'author', 'isbn', 'published_date', 'genre', 'description',"is_issued"]
 
 
 

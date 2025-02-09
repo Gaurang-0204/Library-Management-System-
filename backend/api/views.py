@@ -22,7 +22,7 @@ class BookViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Book.objects.annotate(
-            issued=Exists(IssueBook.objects.filter(book=OuterRef('pk'), returned=False))
+            is_issued=Exists(IssueBook.objects.filter(book=OuterRef('pk'), returned=False))
         )
 
 # Function to get all books
@@ -91,7 +91,7 @@ def checkout_books(request, reader_id):
             CheckoutRecord.objects.create(reader=reader, book=book, due_date=request.data['due_date'])
 
         return Response({"message": "Books checked out successfully!"}, status=status.HTTP_200_OK)
-    except Reader.DoesNotExist:
+    except reader.DoesNotExist:
         return Response({"error": "Reader not found."}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -200,7 +200,7 @@ from api.serializers import ReaderSerializer
 
 @api_view(['GET'])
 def get_readers(request):
-    readers = Reader.objects.all()
+    readers = reader.objects.all()
     serializer = ReaderSerializer(readers, many=True)
     return Response(serializer.data)
 

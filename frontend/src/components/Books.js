@@ -49,34 +49,7 @@ export default function StudentPortal() {
           </div>
         </div>
 
-        {/* List  */}
-        {/* <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">Income</h2>
-        <button className="bg-red-500 text-white px-4 py-2 rounded">Add New Book</button>
-      </div>
-      <div className="bg-white p-4 rounded-lg shadow">
-        <div className="grid grid-cols-5 font-semibold p-2 border-b">
-          <span>Book ID</span>
-          <span>Name </span>
-          <span>Issue Date</span>
-          <span>Return Date</span>
-          <span>Status</span>
-        </div>
-        {Sbook.map((book) => (
-          <div key={book.id} className="my-2 bg-gray-50 p-2 rounded shadow-sm grid grid-cols-5 items-center">
-            <span>{book.id}</span>
-            <span className="flex items-center">
-              <div className="w-8 h-8 bg-red-400 rounded-full flex items-center justify-center text-white mr-2">E</div>
-              {book.title}
-            </span>
-            <span>{book.author}</span>
-            <span>{book.published}</span>
-            <span className={`px-3 py-1 text-white rounded ${book.statusColor}`}>{book.status}</span>
-          </div>
-        ))}
-      </div>
-    </div> */}
+        
 
 
 <div className="p-6 bg-gray-100 min-h-screen">
@@ -112,10 +85,10 @@ export default function StudentPortal() {
         <span>{book.published_date}</span>
         <span
           className={`px-3 py-1 text-white rounded ${
-            book.issued ? "bg-red-500" : "bg-green-500"
+            book.is_issued ? "bg-red-500" : "bg-green-500"
           }`}
         >
-          {book.issued ? "Issued" : "Not Issued"}
+          {book.is_issued ? "Issued" : "Not Issued"}
         </span>
       </div>
     ))}
